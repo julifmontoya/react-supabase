@@ -78,6 +78,8 @@ ALTER TABLE public.ticket_comments
 ADD CONSTRAINT ticket_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id);
 ```
 
+##  Step-by-step to create the app
+
 🗂️ .env file (Vite)
 ```
 VITE_SUPABASE_URL=your-project-url
