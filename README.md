@@ -32,8 +32,8 @@ export const getSessionToken = async () => {
 ```
 
 ## Option 1: Supabase Client – Auto Token Handling
-✅ Automatically handles session token + refresh.
-❌ Not great for admin/server-side filters (because it uses the current user's role only).
+- ✅ Automatically handles session token + refresh.
+- ❌ Not great for admin/server-side filters (because it uses the current user's role only).
 ```
 import { useEffect, useState } from 'react';
 import supabase from '../utils/supabaseClient';
