@@ -1,5 +1,82 @@
 # 🧠 Supabase Tutorial – Noob to Pro
 
+##  Step-by-step to create a schema manually
+
+### 1. Go to your target Supabase project
+Open SQL Editor > New Query.
+
+### 2. Run these 3 statements in this order (adjusted for Supabase)
+```
+-- 1. Create tickets table first (because comments depend on it)
+CREATE TABLE public.tickets (
+  desk_ticketnumber text,
+  desk_status text,
+  desk_statustype text,
+  desk_channel text,
+  desk_departmentid text,
+  desk_accountid text,
+  desk_createdtime timestamptz,
+  desk_duedate timestamptz,
+  desk_weburl text,
+  desk_layoutid text,
+  desk_layoutd text,
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  status text NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'in_progress', 'closed')),
+  user_id uuid NOT NULL,
+  subject text NOT NULL,
+  description text NOT NULL,
+  zoho_ticket_id text,
+  priority text NOT NULL DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+```
+
+```
+-- 2. Create profiles table
+CREATE TABLE public.profiles (
+  id uuid PRIMARY KEY,
+  first_name text NOT NULL,
+  last_name text NOT NULL,
+  company text,
+  phone text,
+  preferred_language text NOT NULL DEFAULT 'en' CHECK (preferred_language IN ('en', 'es')),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  crm_contact_id text,
+  crm_account_id text,
+  desk_contact_id text,
+  desk_account_id text
+);
+```
+
+```
+ALTER TABLE public.profiles
+ADD CONSTRAINT profiles_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id);
+```
+
+```
+-- 3. Create ticket_comments table
+CREATE TABLE public.ticket_comments (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  ticket_id uuid NOT NULL REFERENCES public.tickets(id),
+  user_id uuid NOT NULL,
+  comment text NOT NULL,
+  zoho_comment_id text,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+```
+
+```
+ALTER TABLE public.ticket_comments
+ADD CONSTRAINT ticket_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id);
+```
+
+```
+ALTER TABLE public.tickets
+ADD CONSTRAINT tickets_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id);
+```
+
 🗂️ .env file (Vite)
 ```
 VITE_SUPABASE_URL=your-project-url
