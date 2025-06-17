@@ -6,8 +6,9 @@
 Open SQL Editor > New Query.
 
 ### 2. Run these 3 statements in this order (adjusted for Supabase)
+Create tickets table first (because comments depend on it)
+
 ```
--- 1. Create tickets table first (because comments depend on it)
 CREATE TABLE public.tickets (
   desk_ticketnumber text,
   desk_status text,
@@ -32,8 +33,8 @@ CREATE TABLE public.tickets (
 );
 ```
 
+Create profiles table
 ```
--- 2. Create profiles table
 CREATE TABLE public.profiles (
   id uuid PRIMARY KEY,
   first_name text NOT NULL,
@@ -55,8 +56,8 @@ ALTER TABLE public.profiles
 ADD CONSTRAINT profiles_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id);
 ```
 
+Create ticket_comments table
 ```
--- 3. Create ticket_comments table
 CREATE TABLE public.ticket_comments (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   ticket_id uuid NOT NULL REFERENCES public.tickets(id),
