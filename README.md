@@ -33,6 +33,11 @@ CREATE TABLE public.tickets (
 );
 ```
 
+```
+ALTER TABLE public.tickets
+ADD CONSTRAINT tickets_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id);
+```
+
 Create profiles table
 ```
 CREATE TABLE public.profiles (
@@ -71,11 +76,6 @@ CREATE TABLE public.ticket_comments (
 ```
 ALTER TABLE public.ticket_comments
 ADD CONSTRAINT ticket_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id);
-```
-
-```
-ALTER TABLE public.tickets
-ADD CONSTRAINT tickets_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id);
 ```
 
 🗂️ .env file (Vite)
